@@ -1,18 +1,14 @@
 <template>
-    <div class="container">
-      <NavBar />
-
-      <div class="mainContainer">
-        <Home />
-      </div>
+  <div class="container">
+    <NavBar />
+    <div class="mainContainer">
+      <router-view></router-view>
     </div>
-
+  </div>
 </template>
   
 <script setup lang="ts">
-  import NavBar from './components/NavBar.vue'; 
-  import Home from './views/Home.vue';
-  
+  import NavBar from './components/NavBar/NavBar.vue'; 
 </script>
   
 <style scoped>

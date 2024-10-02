@@ -1,60 +1,51 @@
 <template>
   <main>
     <h1>Gerenciador de Tarefas</h1>
+    <div>
+      
+    </div>
 
     <section class="tasksContainer">
-
-      <div v-for="item in items" >
+      <div v-for="(item, index) in taskStore.tasks" :key="index">
         <TaskCard 
           :title="item.title" 
+          :id="item._id"
           :priority="item.priority"
           :activitys="item.activitys" 
+          :status="item.status"
+          :dateConclusion="item.dateConclusion"
+          :index="index"
+          :deleteTaskFunction="deleteTaskFunction"
         />
       </div>
-
     </section>
-
   </main>
 </template>
 
-<script setup>
-  import { Plus, Circle, Pen } from 'lucide-vue-next';
-  import { reactive } from 'vue';
-  import { ref } from 'vue'
+<script setup lang="ts">
+  import { onMounted } from 'vue'
+  import TaskCard from '../components/TaskCard/TaskCard.vue'
+  import { useTaskStore } from '../stores/taskStores';
+  import { useDeleteTask } from '../composables/useDeleteTask';
 
-  import TaskCard from '../components/TaskCard.vue'
+  const taskStore = useTaskStore()
+  const { mutate:deleteTask } = useDeleteTask()
 
-  const items = ref([
-    {
-      title: 'Titulo da tarefa',
-      priority: 'baixa',
-      activitys: [
-        'ATIVIDADE1'
-      ]
-    },
-    {
-      title: 'Titulo da tarefa',
-      priority: 'baixa',
-      activitys: [
-        'ATIVIDADE1','ATIVIDADE2'
-      ]
-    },
-    {
-      title: 'Titulo da tarefa',
-      priority: 'media',
-      activitys: [
-        'ATIVIDADE1','ATIVIDADE2','ATIVIDADE3'
-      ]
-    },
-    {
-      title: 'Titulo da tarefa',
-      priority: 'alta',
-      activitys: [
-        'ATIVIDADE1','ATIVIDADE2','ATIVIDADE3','ATIVIDADE4','ATIVIDADE5'
-      ]
-    }
-  ])
-  
+  const deleteTaskFunction = async (index: number, id: number) => {
+    deleteTask(id, {
+      onSuccess: () => {
+        taskStore.removeTask(index);
+        taskStore.fetchTasks();
+      },
+      onError: (error) => {
+        console.error("Erro ao deletar a tarefa:", error);
+      }
+    });
+  };
+  onMounted(() => {
+    taskStore.fetchTasks()
+  })
+
 </script>
 
 <style scoped>
@@ -80,7 +71,4 @@
       height: 100%;
     }
   }
- 
-
-  
 </style>
