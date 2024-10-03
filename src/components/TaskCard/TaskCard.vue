@@ -13,6 +13,7 @@
     <TaskBody 
       :activitys="localActivitys" 
       :isCreateNewTask="isCreateNewTask"
+      :cancelEdit="cancelEdit"
       :openModalDeleteActivity="openModalDeleteActivity" 
       @add-activity="(event) => addActivity(event.newActivitys)"
       @edit-activity="(event) => editActivity(event.index, event.newActivity)"
@@ -37,6 +38,12 @@
       :deleteFunction="() => removeActivity(index)"
       @close="closeModalActivity"
     />
+
+    <AlertBanner 
+      :isAlertVisible="isAlertVisible"
+      color="success"
+      text="Tarefa adicionada com sucesso!"
+    />
   </div>
 </template>
 
@@ -52,6 +59,9 @@
   import TaskBody from '../TaskCard/TaskBody.vue'
   import TaskFooter from '../TaskCard/TaskFooter.vue'
   import ConfirmDelete from '../common/ConfirmDelete.vue'
+
+  import AlertBanner from '../common/AlertBanner.vue'
+
   
   const props = defineProps<{
     id: number;
@@ -64,6 +74,8 @@
     deleteTaskFunction: (index:number, id:number) => Promise<void>
   }>();
 
+  const isAlertVisible = ref(false)
+
   const emit = defineEmits<{
     (event: 'update:status', newStatus: string[]): void;
     (event: 'update:activitys', updatedActivitys: string): void;
@@ -74,6 +86,7 @@
     editingIndex,
     localActivitys,
     isCreateNewTask,
+    cancelEdit,
     addNewTask
   } = useTaskManagement(props, emit);
 
@@ -137,6 +150,7 @@
           console.log('Atividade adicionada com sucesso');
           localActivitys.value = [...localActivitys.value, newActivity];
           isCreateNewTask.value = false
+          isAlertVisible.value = true
           newActivitys.value = ''
         },
         onError: (error) => {
@@ -147,6 +161,7 @@
   }
 
   function removeActivity(index: number) {
+    console.log(index)
     mutate(
       { id: props.id, newActivity: '', activityIndex: index },
       {

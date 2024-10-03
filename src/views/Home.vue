@@ -18,8 +18,12 @@
           :deleteTaskFunction="deleteTaskFunction"
         />
       </div>
+
+      
     </section>
+    
   </main>
+  
 </template>
 
 <script setup lang="ts">
@@ -27,6 +31,8 @@
   import TaskCard from '../components/TaskCard/TaskCard.vue'
   import { useTaskStore } from '../stores/taskStores';
   import { useDeleteTask } from '../composables/useDeleteTask';
+
+    
 
   const taskStore = useTaskStore()
   const { mutate:deleteTask } = useDeleteTask()
