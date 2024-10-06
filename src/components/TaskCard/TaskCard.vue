@@ -13,10 +13,13 @@
     <TaskBody 
       :activitys="localActivitys" 
       :isCreateNewTask="isCreateNewTask"
+      :showModalDeleteActivity="showModalDeleteActivity"
       :cancelEdit="cancelEdit"
+      @update:showModalDeleteActivity="showModalDeleteActivity = $event"
       :openModalDeleteActivity="openModalDeleteActivity" 
       @add-activity="(event) => addActivity(event.newActivitys)"
       @edit-activity="(event) => editActivity(event.index, event.newActivity)"
+      @remove-activity="(event) => removeActivity(event.activityIndex)"
     />
 
     <TaskFooter 
@@ -32,17 +35,11 @@
       @close="closeModal"
     />
 
-    <ConfirmDelete
-      :showModalDelete="showModalDeleteActivity"
-      :index="index"         
-      :deleteFunction="() => removeActivity(index)"
-      @close="closeModalActivity"
-    />
-
     <AlertBanner 
       :isAlertVisible="isAlertVisible"
       color="success"
       text="Tarefa adicionada com sucesso!"
+      @update:isAlertVisible="isAlertVisible = $event"
     />
   </div>
 </template>
@@ -74,7 +71,7 @@
     deleteTaskFunction: (index:number, id:number) => Promise<void>
   }>();
 
-  const isAlertVisible = ref(false)
+  const isAlertVisible = ref()
 
   const emit = defineEmits<{
     (event: 'update:status', newStatus: string[]): void;
@@ -133,10 +130,6 @@
     showModalDelete.value = false;
   };
 
-  const closeModalActivity = () => {
-    showModalDeleteActivity.value = false;
-  };
-
   // Função para alterar o status
   function updateTaskStatus(newStatus: string) {
     localStatus.value = newStatus;
@@ -147,10 +140,14 @@
       { id: props.id, newActivity }, 
       {
         onSuccess: () => {
-          console.log('Atividade adicionada com sucesso');
+          isAlertVisible.value = true
           localActivitys.value = [...localActivitys.value, newActivity];
           isCreateNewTask.value = false
-          isAlertVisible.value = true
+
+
+          setTimeout(() => {
+            isAlertVisible.value = false
+          }, 3000)
           newActivitys.value = ''
         },
         onError: (error) => {
@@ -161,7 +158,7 @@
   }
 
   function removeActivity(index: number) {
-    console.log(index)
+    console.log('indexTest' + index)
     mutate(
       { id: props.id, newActivity: '', activityIndex: index },
       {

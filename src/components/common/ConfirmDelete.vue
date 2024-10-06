@@ -29,6 +29,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['close']);
+
 const localDialog = ref(props.showModalDelete);
 
 watch(() => props.showModalDelete, (newVal) => {
@@ -41,19 +42,14 @@ const closeModal = () => {
 
 const confirmDelete = async () => {
   try {
-    await props.deleteFunction(props.index);
-    closeModal();
+    await props.deleteFunction(props.index);  
+    closeModal();  
   } catch (error) {
     console.error('Erro ao deletar:', error);
   }
 };
-
-watch(localDialog, (newVal) => {
-  if (!newVal) {
-    closeModal();
-  }
-});
 </script>
+
   
 <style scoped>
   .containerCard {

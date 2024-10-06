@@ -1,18 +1,16 @@
 <template>
-  <!-- Loop através das atividades -->
   <draggable v-model="localActivitys" :options="{ animation: 200 }" @end="onEnd">
     <template #item="{ element, index }">
       <div>
-        <!-- Exibir o item da tarefa se não estiver editando -->
         <TaskItem
           :activity="element"
           :index="index"
+          @remove-activity="removeActivity"
           @edit="editTask(index)"
-          @delete="() => openModalDeleteActivity(index)" 
+          @delete="openModalDeleteActivity" 
           v-if="!isEditing || editingIndex !== index"
         />
 
-        <!-- Formulário de edição da tarefa -->
         <TaskEditForm
           v-if="editingIndex === index"
           v-model="localActivitys[index]" 
@@ -24,13 +22,14 @@
     </template>
   </draggable>
 
-  <!-- Exibir o formulário de nova atividade fora do loop -->
+
+
   <div v-if="isCreateNewTask" class="newActivityContainer">
     <div class="newTaskContainer">
       <input v-model="newActivitys" placeholder="Nova Atividade" /> 
       <div>
         <button @click="addActivity">Adicionar</button>
-        <X @click="cancelEdit" /> <!-- Adicionar função de cancelar nova atividade -->
+        <X @click="cancelEdit" />
       </div>
     </div>
   </div>
@@ -46,6 +45,7 @@ import TaskEditForm from './TaskEditForm.vue';
 // Definir props
 const props = defineProps<{ 
   activitys: string[], 
+  showModalDeleteActivity:boolean,
   openModalDeleteActivity: (index: number) => void,
   cancelEdit: () => void,
   isCreateNewTask: boolean
@@ -53,42 +53,41 @@ const props = defineProps<{
 
 const newActivitys = ref<string>('');
 
-const emit = defineEmits(['edit-activity', 'add-activity', 'deleteActivity', 'updateActivityOrder']);
+const emit = defineEmits(['edit-activity', 'add-activity', 'deleteActivity','updateActivityOrder','remove-activity']);
+
 const localActivitys = ref([...props.activitys]);
 const isEditing = ref(false);
 const editingIndex: Ref<number | null> = ref(null);
 
-// Watch para atualizar localActivitys quando activitys mudar
 watch(() => props.activitys, (newVal) => {
   localActivitys.value = [...newVal];
 }, { immediate: true });
 
-// Função para editar uma tarefa
 function editTask(index: number) {
   editingIndex.value = index;
   isEditing.value = true;
 }
 
-// Função para cancelar a edição
 function cancelEditt() {
   isEditing.value = false;
   editingIndex.value = null;
 }
 
-// Função para confirmar a edição de uma tarefa
 function editActivity({ activityIndex, activity }: { activityIndex: number, activity: string }) {
   emit('edit-activity', { index: activityIndex, newActivity: activity });
   isEditing.value = false;
   editingIndex.value = null;
 }
 
-// Função para adicionar uma nova tarefa
 function addActivity() {
   emit('add-activity', { newActivitys: newActivitys.value }); 
   newActivitys.value = ''; 
 }
 
-// Função chamada ao terminar o drag-and-drop
+function removeActivity({ activityIndex }: { activityIndex: number }) {
+  emit('remove-activity', { activityIndex });
+}
+
 function onEnd() {
   emit('updateActivityOrder', localActivitys.value);
 }

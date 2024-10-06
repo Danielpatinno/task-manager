@@ -43,8 +43,8 @@
         taskStore.removeTask(index);
         taskStore.fetchTasks();
       },
-      onError: (error) => {
-        console.error("Erro ao deletar a tarefa:", error);
+      onError: () => {
+        console.error("Erro ao deletar a tarefa:");
       }
     });
   };

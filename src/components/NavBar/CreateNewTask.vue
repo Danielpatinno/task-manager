@@ -2,7 +2,7 @@
   <div class="home">
     <div class="modal">
       <h1>Nova Tarefa</h1>
-       
+
       <form @submit.prevent="onSubmit">
         <div class="labelContainer">
           <label>Título da Tarefa</label>
@@ -23,11 +23,11 @@
           <label>Prioridade</label>
           <select v-model="priority" name="priority">
             <option value="BAIXA">BAIXA</option>
-            <option value="BAIXA">MÉDIA</option>
-            <option value="BAIXA">ALTA</option>
+            <option value="MÉDIA">MÉDIA</option>
+            <option value="ALTA">ALTA</option>
           </select>
         </div>
-        
+
         <fieldset class="ativitysContainer">
           <legend>Atividades</legend>
           <div>
@@ -53,77 +53,82 @@
       </form>
 
       <X class="btn-close" @click="close" />
-
     </div>
+
+
   </div>
 </template>
   
 <script setup lang="ts">
-  import { defineEmits, ref, computed } from 'vue';
-  import { X, Plus, Trash2 } from 'lucide-vue-next';
-  import { useAddTask } from '../../composables/useAddTask';
-  import { useTaskStore } from '../../stores/taskStores';
+import { defineEmits, ref, computed } from 'vue';
+import { X, Plus, Trash2 } from 'lucide-vue-next';
+import { useAddTask } from '../../composables/useAddTask';
+import { useTaskStore } from '../../stores/taskStores';
 
-  const { mutate } = useAddTask()
+const { mutate } = useAddTask();
 
-  const title = ref<string>('');
-  const priority = ref<string>('BAIXA');
-  const dateConclusion = ref<Date | null>(null);
-  const activitys = ref<Array<string>>([]);
-  const newActivity = ref<string>('');
+const title = ref<string>('');
+const priority = ref<string>('BAIXA');
+const dateConclusion = ref<Date | null>(null);
+const activitys = ref<Array<string>>([]);
+const newActivity = ref<string>('');
 
-  const dateInput = ref<string>('');
-  const formattedDate = computed(() => {
-    return dateConclusion.value ? dateConclusion.value.toISOString().split('T')[0] : '';
-  });
+const isAlertVisible = ref(false)
 
-  function updateDate(event: Event) {
-    const input = event.target as HTMLInputElement;
-    dateConclusion.value = input.value ? new Date(input.value) : null;
+const dateInput = ref<string>('');
+const formattedDate = computed(() => {
+  return dateConclusion.value ? dateConclusion.value.toISOString().split('T')[0] : '';
+});
+
+function updateDate(event: Event) {
+  const input = event.target as HTMLInputElement;
+  dateConclusion.value = input.value ? new Date(input.value) : null;
+}
+
+function addActivity() {
+  if (newActivity.value.trim() !== '') {
+    activitys.value.push(newActivity.value); 
+    newActivity.value = ''; 
   }
+}
 
-  function addActivity() {
-    if (newActivity.value.trim() !== '') {
-      activitys.value.push(newActivity.value); 
-      newActivity.value = ''; 
-    }
-  }
+function removeActivity(index: number) {
+  activitys.value.splice(index, 1);
+}
 
-  function removeActivity(index: number) {
-    activitys.value.splice(index, 1);
-  }
-
-  const emit = defineEmits<{
+const emit = defineEmits<{
   (e: 'close'): void;
-  }>();
+}>();
 
-  const taskStore = useTaskStore()
+const taskStore = useTaskStore();
 
-  const onSubmit = () => {
-    mutate(
-      {
-        title: title.value,
-        priority: priority.value,
-        status: 'Pendente',
-        dateConclusion: dateConclusion.value ?? new Date(),
-        activitys: activitys.value,
+const onSubmit = () => {
+  mutate(
+    {
+      title: title.value,
+      priority: priority.value,
+      status: 'Pendente',
+      dateConclusion: dateConclusion.value ?? new Date(),
+      activitys: activitys.value,
+    },
+    {
+      onSuccess: (newTask) => {
+        taskStore.addTask(newTask);
+        isAlertVisible.value = true
+        emit('close');
       },
-      {
-        onSuccess: (newTask) => {
-          taskStore.addTask(newTask)
-          emit('close');
-        },
-        onError: (error) => {
-          console.error('Erro ao adicionar tarefa:', error);
-        },
-      }
-    );
-  };
+      onError: (error) => {
+        console.error('Erro ao adicionar tarefa:', error);
+      },
+    }
+  );
+};
 
-  const close = () => {
-    emit('close');
-  };
+const close = () => {
+  emit('close');
+};
 </script>
+
   
 <style scoped>
   .home {

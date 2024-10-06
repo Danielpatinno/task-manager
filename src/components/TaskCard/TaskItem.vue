@@ -4,21 +4,50 @@
     <Ellipsis @click="toggleOptions" />
     
     <div v-if="showOptions" class="optionsContainer">
-      <button class="btnOptions" @click="$emit('edit')">
+      <button class="btnOptions" @click="emit('edit')">
         <Pencil /> Editar
       </button>
-      <button class="btnOptions" @click="$emit('delete')">
+      <button class="btnOptions" @click="openModalDelete">
         <Trash /> Deletar
       </button>
     </div>
+
+    <ConfirmDelete
+      :showModalDelete="showModalDeleteActivity"
+      :index="props.index"         
+      :deleteFunction="() => removeActivity(index)"
+      @close="closeModalActivity"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted,defineEmits, onBeforeUnmount } from 'vue';
 import { Ellipsis, Pencil, Trash } from 'lucide-vue-next';
 
-const props = defineProps<{ activity: string }>();
+import ConfirmDelete from '../common/ConfirmDelete.vue'
+
+const emit = defineEmits(['update:showModalDeleteActivity','delete', 'edit', 'remove-activity'])
+
+const props = defineProps<{ 
+  activity: string 
+  index:number
+}>();
+
+const showModalDeleteActivity = ref(false)
+
+function removeActivity(activityIndex:number) {
+  emit('remove-activity', {activityIndex})
+}
+
+const openModalDelete = () => {
+  showModalDeleteActivity.value = true
+}
+
+const closeModalActivity = () => {
+  showModalDeleteActivity.value = false
+};
+
 const showOptions = ref(false);
 const subTaskRef = ref<HTMLElement | null>(null);
 

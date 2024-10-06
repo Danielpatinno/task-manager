@@ -9,7 +9,7 @@
 
     <CreateNewTask
       v-if="showModalTask"
-      @close="showModalTask = false"
+      @close="closeModalTask"
     />
 
     <CreateNewAgenda 
@@ -41,6 +41,12 @@
     <ModalCreate :show="showModal" />
 
     <Settings class="logoSettings" size="45" />
+
+    <AlertBanner 
+      color="success"
+      text="Tarefa criada com sucesso"
+      :isAlertVisible="showAlertTask"
+    />
   </nav>
 </template>
 
@@ -51,14 +57,22 @@ import CreateNewAgenda from './CreateNewAgenda.vue';
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router';
 
+import AlertBanner from '../common/AlertBanner.vue'
+
 const route = useRoute();
 const showModalTask = ref(false);
 const showModalAgenda = ref(false);
+const showAlertTask = ref(false)
 
-const showModal = ref(false)
+const showModal = ref()
 
 const openModalTest = () => {
   showModal.value = true
+}
+
+const closeModalTask = () => {
+  showModalTask.value = false
+
 }
 
 const isActive = (path) => {
