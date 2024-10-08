@@ -1,7 +1,10 @@
 <template>
   <div class="subTask" ref="subTaskRef">
-    {{ props.activity }}
-    <Ellipsis @click="toggleOptions" />
+    <div class="subTaskContainer">
+      <p>{{ props.activity }}</p>
+      <Ellipsis @click="toggleOptions" />      
+    </div>
+
     
     <div v-if="showOptions" class="optionsContainer">
       <button class="btnOptions" @click="emit('edit')">
@@ -70,21 +73,21 @@ onBeforeUnmount(() => {
 });
 </script>
 
-  
 <style scoped>
   .subTask {
-    margin: 7px 10px;
     background-color: #22272B;
-    padding: 5px;
-    display: flex;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    justify-content: space-between;
-    align-items: center;
+  }
 
+  .subTaskContainer {
+    display: flex;
+    padding: 7px 10px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    border: 1px solid red;
+    
     &:hover {
-      border:1px solid white;
-      cursor: pointer;
+      border: 1px solid white;
     }
   }
 

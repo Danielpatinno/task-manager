@@ -23,7 +23,6 @@
   </draggable>
 
 
-
   <div v-if="isCreateNewTask" class="newActivityContainer">
     <div class="newTaskContainer">
       <input v-model="newActivitys" placeholder="Nova Atividade" /> 
