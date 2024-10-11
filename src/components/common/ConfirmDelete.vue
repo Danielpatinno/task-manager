@@ -61,4 +61,13 @@ const confirmDelete = async () => {
     border-radius: 15px;
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.5);
   }
+
+  @media (max-width: 768px) {
+    .containerCard {
+      width: 340px;
+      z-index: 999;
+      margin-left: 20px
+    }
+    
+  }
 </style>

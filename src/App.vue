@@ -23,5 +23,12 @@
     flex-wrap: 1;
   }
 
+  @media (max-width:768px) {
+    .mainContainer {
+      margin-left: 60px;
+    }
+    
+  }
+
 </style>
   

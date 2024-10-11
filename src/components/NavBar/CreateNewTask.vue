@@ -6,7 +6,7 @@
       <form @submit.prevent="onSubmit">
         <div class="labelContainer">
           <label>Título da Tarefa</label>
-          <input v-model="title" type="text">
+          <input v-model="title" type="text" required>
         </div>
 
         <div class="labelContainer">
@@ -23,7 +23,7 @@
           <label>Prioridade</label>
           <select v-model="priority" name="priority">
             <option value="BAIXA">BAIXA</option>
-            <option value="MÉDIA">MÉDIA</option>
+            <option value="MEDIA">MÉDIA</option>
             <option value="ALTA">ALTA</option>
           </select>
         </div>
@@ -55,6 +55,12 @@
       <X class="btn-close" @click="close" />
     </div>
 
+    <AlertBanner 
+      :isAlertVisible="isAlertVisible"
+      :text="errorMessage"
+      color="error"
+      @update:isAlertVisible="error = $event"
+    />
 
   </div>
 </template>
@@ -64,16 +70,23 @@ import { defineEmits, ref, computed } from 'vue';
 import { X, Plus, Trash2 } from 'lucide-vue-next';
 import { useAddTask } from '../../composables/useAddTask';
 import { useTaskStore } from '../../stores/taskStores';
+import { useError } from '../../composables/useError';
+import  AlertBanner from '../common/AlertBanner.vue'
 
 const { mutate } = useAddTask();
+const { error, handleErrorEdit, clearError } = useError();
+
+const isAlertVisible = ref(false);
+
+const errorMessage = computed(() => {
+  return Array.isArray(error.value) && error.value.length > 0 ? error.value[0] : '';
+});
 
 const title = ref<string>('');
 const priority = ref<string>('BAIXA');
 const dateConclusion = ref<Date | null>(null);
 const activitys = ref<Array<string>>([]);
 const newActivity = ref<string>('');
-
-const isAlertVisible = ref(false)
 
 const dateInput = ref<string>('');
 const formattedDate = computed(() => {
@@ -108,7 +121,7 @@ const onSubmit = () => {
       title: title.value,
       priority: priority.value,
       status: 'Pendente',
-      dateConclusion: dateConclusion.value ?? new Date(),
+      dateConclusion: dateConclusion.value,
       activitys: activitys.value,
     },
     {
@@ -118,7 +131,13 @@ const onSubmit = () => {
         emit('close');
       },
       onError: (error) => {
-        console.error('Erro ao adicionar tarefa:', error);
+        handleErrorEdit(error)
+        isAlertVisible.value = true
+
+        setTimeout(() => {
+          clearError()
+          isAlertVisible.value = false
+        }, 3000)
       },
     }
   );

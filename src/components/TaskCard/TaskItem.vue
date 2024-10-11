@@ -45,6 +45,7 @@ function removeActivity(activityIndex:number) {
 
 const openModalDelete = () => {
   showModalDeleteActivity.value = true
+  showOptions.value = false
 }
 
 const closeModalActivity = () => {
@@ -74,20 +75,19 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-  .subTask {
-    background-color: #22272B;
-  }
-
   .subTaskContainer {
     display: flex;
     padding: 7px 10px;
     align-items: center;
+    background-color: #22272B; 
     justify-content: space-between;
     border-radius: 10px;
-    border: 1px solid red;
+    border: 1px solid transparent;
+    margin: 5px;
     
     &:hover {
       border: 1px solid white;
+      cursor: pointer;
     }
   }
 
@@ -113,6 +113,13 @@ onBeforeUnmount(() => {
     margin-bottom: 4px;
     border-radius: 5px;
     padding: 3px;
+  }
+
+  @media (max-width:768px) {
+    .optionsContainer {
+      right: 0;
+      z-index: 9999;
+    }
   }
 </style>
   

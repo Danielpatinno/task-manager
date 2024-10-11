@@ -1,12 +1,12 @@
 <template>
   <main>
     <h1>Gerenciador de Tarefas</h1>
-    <div>
-      
-    </div>
 
     <section class="tasksContainer">
-      <div v-for="(item, index) in taskStore.tasks" :key="index">
+      <div 
+        v-for="(item, index) in taskStore.tasks" 
+        :key="index" 
+      >
         <TaskCard 
           :title="item.title" 
           :id="item._id"
@@ -17,11 +17,8 @@
           :index="index"
           :deleteTaskFunction="deleteTaskFunction"
         />
-      </div>
-
-      
+      </div>  
     </section>
-    
   </main>
   
 </template>
@@ -31,8 +28,6 @@
   import TaskCard from '../components/TaskCard/TaskCard.vue'
   import { useTaskStore } from '../stores/taskStores';
   import { useDeleteTask } from '../composables/useDeleteTask';
-
-    
 
   const taskStore = useTaskStore()
   const { mutate:deleteTask } = useDeleteTask()
@@ -55,26 +50,27 @@
 </script>
 
 <style scoped>
-  main {
-    width: 100%;
-  }
+.tasksContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 10px;
+}
 
+@media (max-width: 1024px) {
+  .tasksContainer {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media (max-width: 768px) {
   h1 {
-    margin: 0;
-  }
-
-  .sectionContainer {
-    width: 100%;
+    font-size: 25px;
   }
 
   .tasksContainer {
-    display: grid;
-    margin-top: 10px;
-    gap: 45px;
-    grid-template-columns: repeat(3, 1fr);
-
-    div {
-      height: 100%;
-    }
+    grid-template-columns: 1fr;
   }
+}
+  
 </style>

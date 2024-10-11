@@ -40,7 +40,6 @@
 
     <ModalCreate :show="showModal" />
 
-    <Settings class="logoSettings" size="45" />
 
     <AlertBanner 
       color="success"
@@ -51,7 +50,7 @@
 </template>
 
 <script setup>
-import { BookCheck, CalendarCheck, CalendarDays, Bolt, Plus , Settings  } from 'lucide-vue-next'
+import { BookCheck, CalendarCheck, CalendarDays, Bolt, Plus } from 'lucide-vue-next'
 import CreateNewTask from './CreateNewTask.vue';
 import CreateNewAgenda from './CreateNewAgenda.vue';
 import { computed, ref } from 'vue'
@@ -94,35 +93,6 @@ const handleClick = () => {
 </script>
 
 <style scoped>
-  .logo {
-    margin-top: 10px;
-    width: 100%;
-    height: 65px;
-    color: blue;
-    text-align: center;
-  }
-
-  .newTaskIcon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px;
-    cursor: pointer;
-
-    svg {
-      color: blue;
-      border: 2px solid blue;
-      border-radius: 50%;  
-      margin-right: 8px;  
-
-      &:hover {
-       border-color: white;
-       color: white;
-      }
-    }
-  }
-
   .navContainer {
     display: flex;
     flex-direction: column;
@@ -172,6 +142,35 @@ const handleClick = () => {
     }
   }
 
+  .logo {
+    margin-top: 10px;
+    width: 100%;
+    height: 65px;
+    color: blue;
+    text-align: center;
+  }
+
+  .newTaskIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+
+    svg {
+      color: blue;
+      border: 2px solid blue;
+      border-radius: 50%;  
+      margin-right: 8px;  
+
+      &:hover {
+       border-color: white;
+       color: white;
+      }
+    }
+  }
+
   .logoSettings {
     position: absolute;
     bottom: 25px;
@@ -181,5 +180,30 @@ const handleClick = () => {
       color: grey;
       cursor: pointer;
     }
+  }
+
+  @media (max-width:768px) {
+    .navContainer {
+      width: 68px;
+    }
+
+    .newTaskIcon {
+      svg {
+        margin-right: 0;
+      }
+
+      span {
+        display: none;
+      }
+    }
+
+     .liContainer {
+       border-radius: 10px;
+
+      span {
+        display: none;
+      }
+     }
+
   }
 </style>

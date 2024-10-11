@@ -1,5 +1,5 @@
 <template>
-  <div class="task">
+  <div :class="statusClass" class="task">
     <TaskHeader :index="index" @deleteTask="openModalDelete"/>
 
     <TaskTitle 
@@ -73,6 +73,8 @@
 
   const isAlertVisible = ref()
 
+
+
   const emit = defineEmits<{
     (event: 'update:status', newStatus: string[]): void;
     (event: 'update:activitys', updatedActivitys: string): void;
@@ -91,6 +93,18 @@
   const taskStore = useTaskStore();
   const status = ref(props.status);
   const newActivitys = ref<string>('')
+
+  const statusClass = computed(() => {
+  if (props.status === 'Pendente') {
+    return 'pending';
+  } else if (props.status === 'Em andamento') {
+    return 'inProgress';
+  } else if (props.status === 'Concluído') {
+    return 'completed';
+  } else {
+    return '';
+  }
+});
 
   // Computed para obter o status local
   const localStatus = computed({
@@ -211,9 +225,28 @@
     height: auto;
     border-radius: 10px;
     position: relative; 
-    padding-bottom: 40px; 
-    background-color: rgba(0, 0, 0, 0.766);
+    padding-bottom: 40px;
     display: flex;
     flex-direction: column; 
   }
+
+  .pending {
+    background-color: rgba(0, 0, 0, 0.766); /* Amarelo */
+  }
+
+  .inProgress {
+    background-color: rgba(0, 153, 255, 0.384); /* Azul */
+  }
+
+  .completed {
+    background-color: rgba(0, 128, 6, 0.562); /* Verde */
+  }
+
+  @media(max-width: 768px) {
+    .task {
+      width: 295px;
+    }
+  }
 </style>
+
+/* background-color: rgba(0, 0, 0, 0.766); */

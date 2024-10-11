@@ -63,7 +63,6 @@ function changeTaskStatus(newStatus: string) {
 }
 </script>
 
-
 <style scoped>
   .titleContainer {
     display: flex;
@@ -106,6 +105,7 @@ function changeTaskStatus(newStatus: string) {
     flex-direction: column;
     position: absolute;
     width: 123px;
+    z-index: 999;
     
     button {
       border-radius: 10px;
@@ -141,5 +141,12 @@ function changeTaskStatus(newStatus: string) {
 
   .titleTask {
     margin-left: 10px
+  }
+
+  @media (max-width: 768px) {
+    .statusContainer {
+      width: 140px;
+    }
+    
   }
 </style>

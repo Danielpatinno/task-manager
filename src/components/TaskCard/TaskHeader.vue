@@ -73,4 +73,12 @@
     padding: 3px;
   }
 
+  @media (max-width:768px) {
+    .optionsHeader {
+      right: 0px;
+      top: 10px;   
+    }
+    
+  }
+
 </style>

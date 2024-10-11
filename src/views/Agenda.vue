@@ -36,17 +36,12 @@
   import { useTaskStore } from '../stores/taskStores';
   import DetailsAgenda from  '../components/Agenda/DetailsAgenda.vue'
 
-  // Use the commitment store
   const commitmentStore = useCommitmentStore();
   const taskStore = useTaskStore();
 
-  
-
-  // Reactive references to tasks
   const commitments = computed(() => commitmentStore.commitments);
   const tasks = computed(() => taskStore.tasks);
 
-  // Combine commitments and tasks into a single object organized by date
   const tasksByDate = computed(() => {
     const allTasks = [...commitments.value, ...tasks.value];
     
@@ -58,66 +53,65 @@
     }, {} as Record<string, string[]>);
   });
 
-// Function to get tasks for a specific day
-function getTasksForDay(day: number): string[] {
-  const dayString = `${currentYear.value}-${(currentMonth.value + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-  return tasksByDate.value[dayString] || [];
-}
-
-// Array with month names
-const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-
-// Current date information
-const today = new Date();
-const currentMonth = ref(today.getMonth());
-const currentYear = ref(today.getFullYear());
-const currentDay = today.getDate();
-
-// Fetch commitments on mounted
-onMounted(() => {
-  commitmentStore.fetchCommitments();
-  taskStore.fetchTasks(); // Fetch tasks as well
-});
-
-// Compute the number of days in the current month
-const daysInMonth = computed(() => {
-  return Array.from({ length: new Date(currentYear.value, currentMonth.value + 1, 0).getDate() }, (_, i) => i + 1);
-});
-
-const showTaskModal = ref(false);
-const selectedDay = ref<number | null>(null);
-const tasksForSelectedDay = ref<string[]>([]);
-
-// Abrir detalhes das tarefas de um dia específico
-function openTaskDetails(day: number) {
-  selectedDay.value = day;
-  tasksForSelectedDay.value = getTasksForDay(day);
-  showTaskModal.value = true;
-}
-
-// Check if the given day is today
-const isToday = (day: number) => {
-  return day === currentDay && currentMonth.value === today.getMonth() && currentYear.value === today.getFullYear();
-};
-
-// Change month and year
-const changeMonth = (step: number) => {
-  currentMonth.value += step;
-  if (currentMonth.value > 11) {
-    currentMonth.value = 0;
-    currentYear.value++;
-  } else if (currentMonth.value < 0) {
-    currentMonth.value = 11;
-    currentYear.value--;
+  function getTasksForDay(day: number): string[] {
+    const dayString = `${currentYear.value}-${(currentMonth.value + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    return tasksByDate.value[dayString] || [];
   }
-};
+
+  // Array with month names
+  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+  // Current date information
+  const today = new Date();
+  const currentMonth = ref(today.getMonth());
+  const currentYear = ref(today.getFullYear());
+  const currentDay = today.getDate();
+
+  // Fetch commitments on mounted
+  onMounted(() => {
+    commitmentStore.fetchCommitments();
+    taskStore.fetchTasks(); // Fetch tasks as well
+  });
+
+  // Compute the number of days in the current month
+  const daysInMonth = computed(() => {
+    return Array.from({ length: new Date(currentYear.value, currentMonth.value + 1, 0).getDate() }, (_, i) => i + 1);
+  });
+
+  const showTaskModal = ref(false);
+  const selectedDay = ref<number | null>(null);
+  const tasksForSelectedDay = ref<string[]>([]);
+
+  // Abrir detalhes das tarefas de um dia específico
+  function openTaskDetails(day: number) {
+    selectedDay.value = day;
+    tasksForSelectedDay.value = getTasksForDay(day);
+    showTaskModal.value = true;
+  }
+
+  // Check if the given day is today
+  const isToday = (day: number) => {
+    return day === currentDay && currentMonth.value === today.getMonth() && currentYear.value === today.getFullYear();
+  };
+
+  // Change month and year
+  const changeMonth = (step: number) => {
+    currentMonth.value += step;
+    if (currentMonth.value > 11) {
+      currentMonth.value = 0;
+      currentYear.value++;
+    } else if (currentMonth.value < 0) {
+      currentMonth.value = 11;
+      currentYear.value--;
+    }
+  };
 </script>
 
 
 <style scoped>
 .calendar {
   width: 100%;
-  height: calc(90vh - 60px); /* Subtrai a altura do h1 */
+  height: calc(90vh - 60px);
   text-align: center;
 }
 
@@ -132,7 +126,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 24px;
+  font-size: 24p;
 
   button {
     cursor: pointer;
@@ -149,7 +143,7 @@ h1 {
 
 .day {
   padding: 10px;
-  /* overflow-y: auto; */
+  overflow-y: auto;
   border: 2px solid rgba(222, 222, 233, 0.158);
   width: 150px;
   font-size: 20px;
@@ -172,5 +166,11 @@ h1 {
   background-color: rgba(255, 255, 255, 0.274);
   color: white;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .days-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
