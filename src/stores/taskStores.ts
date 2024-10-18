@@ -12,8 +12,8 @@ export const useTaskStore = defineStore('task', {
   }),
   actions: {
     async fetchTasks() {
-      const response = await axios.get('http://localhost:3000/tasks');
-      this.tasks = response.data.tasks
+      const response = await axios.get('https://task-api-jet.vercel.app/tasks');
+      this.tasks = response.data
     },
     addTask(task:Task) {
       this.tasks.push(task)
@@ -22,7 +22,7 @@ export const useTaskStore = defineStore('task', {
       this.tasks.slice(index,1)
     },
     updateTask(id: number, updatedFields: Partial<Task>) {
-      const taskIndex = this.tasks.findIndex(task => task._id === id); 
+      const taskIndex = this.tasks.findIndex(task => task.id === id); 
       if (taskIndex !== -1) {
         this.tasks[taskIndex] = { ...this.tasks[taskIndex], ...updatedFields };
         

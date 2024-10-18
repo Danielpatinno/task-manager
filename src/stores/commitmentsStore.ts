@@ -17,8 +17,8 @@ export const useCommitmentStore = defineStore('commitment', {
   }),
   actions: {
     async fetchCommitments() {
-      const response = await axios.get('http://localhost:3000/commitments');
-      this.commitments = response.data.tasks
+      const response = await axios.get('https://task-api-jet.vercel.app/commitments');
+      this.commitments = response.data
     },
     addCommitment(commitments:Commitment) {
       this.commitments.push(commitments)

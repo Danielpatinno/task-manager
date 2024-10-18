@@ -9,7 +9,7 @@
       >
         <TaskCard 
           :title="item.title" 
-          :id="item._id"
+          :id="item.id"
           :priority="item.priority"
           :activitys="item.activitys" 
           :status="item.status"

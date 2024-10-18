@@ -8,7 +8,7 @@ interface CreateCommitmetntProps {
 }
 
 async function createCommitment(commitment: CreateCommitmetntProps): Promise<Commitment> {
-  const response = await api.post('/newCommitment', commitment);
+  const response = await api.post('/createCommitment', commitment);
   return response.data;
 }
 

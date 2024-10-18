@@ -13,7 +13,7 @@ export interface UpdateTaskProps {
 
 async function updateTask(task: UpdateTaskProps):Promise <Task> {
   const { id, ...data } = task
-  const response = await api.put(`/updateTask/${id}`, data)
+  const response = await api.put(`/updateTask?id=${id}`, data)
   return response.data
 }
 

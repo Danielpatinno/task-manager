@@ -16,11 +16,11 @@ export interface Task {
   status: string;
   dateConclusion: string;
   activitys: string[];
-  _id: number;
+  id: number;
 }
 
 async function createTask(task: CreateTaskProps): Promise<Task> {
-  const response = await api.post('/newTask', task);
+  const response = await api.post('/createTask', task);
   return response.data;
 }
 
