@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
   import { X } from 'lucide-vue-next';
-  import { computed, defineEmits, ref } from 'vue';
+  import { defineEmits, ref } from 'vue';
   import { useAddCommitment } from '../../composables/useAddCommitment';
   import { useCommitmentStore } from '../../stores/commitmentsStore';
   
@@ -40,10 +40,6 @@
   const title = ref<string>('');
   const dateConclusion = ref<Date | null>(null);
   const dateInput = ref<string>('');
-  
-  const formattedDate = computed(() => {
-    return dateConclusion.value ? dateConclusion.value.toISOString().split('T')[0] : '';
-  });
 
   function updateDate(event: Event) {
     const input = event.target as HTMLInputElement;

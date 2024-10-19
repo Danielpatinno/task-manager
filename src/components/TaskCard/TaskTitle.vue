@@ -35,7 +35,7 @@ const props = defineProps<{
   index: number;
 }>();
 
-const { id, title, priority, index } = props;
+const { title, priority, index } = props;
 
 // Emit event to the parent
 const emit = defineEmits(['update:status']);

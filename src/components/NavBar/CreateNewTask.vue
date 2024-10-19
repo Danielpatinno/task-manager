@@ -89,9 +89,6 @@ const activitys = ref<Array<string>>([]);
 const newActivity = ref<string>('');
 
 const dateInput = ref<string>('');
-const formattedDate = computed(() => {
-  return dateConclusion.value ? dateConclusion.value.toISOString().split('T')[0] : '';
-});
 
 function updateDate(event: Event) {
   const input = event.target as HTMLInputElement;

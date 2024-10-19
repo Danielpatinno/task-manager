@@ -4,17 +4,12 @@ import App from './App.vue';
 import router from './router';
 import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query';
 import { createPinia } from 'pinia';
-import { aliases, mdi } from 'vuetify/iconsets/mdi' 
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles' 
 
 const vuetify = createVuetify({
     icons: {
       defaultSet: 'mdi',
-    //   aliases,
-    //   sets: {
-    //     mdi,
-    //   },
     },
   })
 
