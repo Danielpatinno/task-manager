@@ -12,9 +12,9 @@
       </div>
 
       <div v-if="showBtnsContainer[index]" class="btnsContainer">
-        <button @click="changeTaskStatus('Pendente')">Pendente</button>
-        <button @click="changeTaskStatus('Em andamento')">Em andamento</button>
-        <button @click="changeTaskStatus('Concluído')">Concluído</button>
+        <button @click="changeTaskStatus('PENDENTE')">Pendente</button>
+        <button @click="changeTaskStatus('EM ANDAMENTO')">Em andamento</button>
+        <button @click="changeTaskStatus('CONCLUIDO')">Concluído</button>
       </div>
     </div>
   </div>
@@ -85,7 +85,7 @@ function changeTaskStatus(newStatus: string) {
     margin-right: 5px;
     background-color: #22272B;
     height: 30px;
-    width: 145px;
+    width: 160px;
     padding: 0 4px;
 
     svg {
@@ -104,7 +104,7 @@ function changeTaskStatus(newStatus: string) {
     display: flex;
     flex-direction: column;
     position: absolute;
-    width: 123px;
+    width: 125px;
     z-index: 999;
     
     button {

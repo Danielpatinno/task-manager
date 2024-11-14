@@ -1,6 +1,8 @@
 <template>
   <main>
+    
     <h1>Gerenciador de Tarefas</h1>
+    <p>Olá {{ userName }}, vejá suas tarefas</p>
 
     <section class="tasksContainer">
       <div 
@@ -24,10 +26,13 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
+  import { onMounted, ref } from 'vue'
   import TaskCard from '../components/TaskCard/TaskCard.vue'
   import { useTaskStore } from '../stores/taskStores';
   import { useDeleteTask } from '../composables/useDeleteTask';
+
+  const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
+  const userName = ref<string | null>(null);
 
   const taskStore = useTaskStore()
   const { mutate:deleteTask } = useDeleteTask()
@@ -44,6 +49,12 @@
     });
   };
   onMounted(() => {
+    const sessionData = localStorage.getItem(TASK_MANAGER_SESSION_KEY);
+
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      userName.value = session.user.name; 
+    }
     taskStore.fetchTasks()
   })
 

@@ -20,8 +20,8 @@
     <ul>
       <li>
         <router-link 
-          :class="['liContainer', { active: isActive('/') }]"
-          to="/"
+          :class="['liContainer', { active: isActive('/home') }]"
+          to="/home"
         >
           <BookCheck />
           <span>TAREFAS</span>
@@ -38,6 +38,8 @@
       </li>
     </ul>
 
+  
+
     <ModalCreate :show="showModal" />
 
 
@@ -50,7 +52,7 @@
 </template>
 
 <script setup>
-import { BookCheck, CalendarCheck, CalendarDays, Bolt, Plus } from 'lucide-vue-next'
+import { BookCheck, CalendarCheck, CalendarDays, Bolt, Plus, LogOut } from 'lucide-vue-next'
 import CreateNewTask from './CreateNewTask.vue';
 import CreateNewAgenda from './CreateNewAgenda.vue';
 import { computed, ref } from 'vue'
@@ -83,7 +85,7 @@ const buttonText = computed(() => {
 });
 
 const handleClick = () => {
-  if (route.path === '/') {
+  if (route.path === '/home') {
     showModalTask.value = true
   } else {
     showModalAgenda.value = true

@@ -111,6 +111,9 @@ const emit = defineEmits<{
 }>();
 
 const taskStore = useTaskStore();
+const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
+const sessionData = localStorage.getItem(TASK_MANAGER_SESSION_KEY);
+const userId = sessionData ? JSON.parse(sessionData).user.id : null;
 
 const onSubmit = () => {
   mutate(
@@ -120,6 +123,7 @@ const onSubmit = () => {
       status: 'Pendente',
       dateConclusion: dateConclusion.value,
       activitys: activitys.value,
+      userId:userId
     },
     {
       onSuccess: (newTask) => {

@@ -1,0 +1,1 @@
+export const TASK_MANAGER_SESSION_KEY = 'mysecretetaskmanager'

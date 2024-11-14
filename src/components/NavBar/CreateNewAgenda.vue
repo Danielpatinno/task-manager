@@ -48,6 +48,10 @@
 
   const emit = defineEmits(['close']);
 
+  const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
+  const sessionData = localStorage.getItem(TASK_MANAGER_SESSION_KEY);
+  const userId = sessionData ? JSON.parse(sessionData).user.id : null;
+
   const onSubmit = () => {
     if (!title.value || !dateConclusion.value) {
       console.error('Title and date are required');
@@ -57,7 +61,8 @@
     mutate(
       {
         title: title.value,
-        dateConclusion: dateConclusion.value
+        dateConclusion: dateConclusion.value,
+        userId: userId
       },
       {
         onSuccess: (newCommitment) => {

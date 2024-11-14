@@ -11,13 +11,23 @@ interface CommitmentState {
   commitments: Commitment[];
 }
 
+const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
+
 export const useCommitmentStore = defineStore('commitment', {
   state: (): CommitmentState => ({
     commitments: [],
   }),
   actions: {
     async fetchCommitments() {
-      const response = await axios.get('https://task-api-jet.vercel.app/commitments');
+      const sessionData = localStorage.getItem(TASK_MANAGER_SESSION_KEY);
+      const userId = sessionData ? JSON.parse(sessionData).user.id : null;
+
+      if (!userId) {
+        console.error('ID do usuário não encontrado na sessão.');
+        return;
+      }
+
+      const response = await axios.get(`https://task-api-jet.vercel.app/commitments/${userId}`);
       this.commitments = response.data
     },
     addCommitment(commitments:Commitment) {

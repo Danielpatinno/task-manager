@@ -95,11 +95,11 @@
   const newActivitys = ref<string>('')
 
   const statusClass = computed(() => {
-  if (props.status === 'Pendente') {
+  if (props.status === 'PENDENTE') {
     return 'pending';
-  } else if (props.status === 'Em andamento') {
+  } else if (props.status === 'EM ANDAMENTO') {
     return 'inProgress';
-  } else if (props.status === 'Concluído') {
+  } else if (props.status === 'CONCLUIDO') {
     return 'completed';
   } else {
     return '';

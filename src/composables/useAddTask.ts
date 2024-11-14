@@ -6,6 +6,7 @@ interface CreateTaskProps {
   title: string;
   priority: string;
   status: string;
+  userId: string;
   dateConclusion?: Date | null;
   activitys: string[];
 }
