@@ -77,6 +77,7 @@
 @media (max-width: 768px) {
   h1 {
     font-size: 25px;
+    margin-top: 30px;
   }
 
   .tasksContainer {
