@@ -28,14 +28,22 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref } from 'vue';
   import { useSignUp } from '../../composables/useSignUp'
+  import { ResponseUserSignUp } from '../../composables/useSignUp';
+  import { useRouter } from 'vue-router'; 
   
   const name = ref('');
   const email = ref('');
   const password = ref('');
   const { mutate } = useSignUp();
+
+  const router = useRouter(); 
+
+  const session = ref<ResponseUserSignUp | null>(null); 
+  const isAuthenticated = ref(false);
+  const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
   
   const handleLogin = () => {
     mutate({
@@ -43,8 +51,18 @@
       email: email.value,
       password: password.value
     },{
-      onSuccess: (user) => {
-        console.log(user)
+      onSuccess: (response: ResponseUserSignUp) => {
+        const newSession: ResponseUserSignUp = {
+            user: response.user,  
+            accessToken: response.accessToken,  
+          };
+
+          
+          session.value = newSession;
+          localStorage.setItem(TASK_MANAGER_SESSION_KEY, JSON.stringify(newSession));
+          isAuthenticated.value = true;
+          
+          router.push({ name: 'Home' }); 
       }
     })
   };
