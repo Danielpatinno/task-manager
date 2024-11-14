@@ -16,7 +16,6 @@ const routes = [
     name: 'Register',
     component: Register
   },
-
   {
     path: '/home',
     name: 'Home',
@@ -36,7 +35,7 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const isAuthenticated = !!localStorage.getItem('task_manager_session')
 
   if (to.meta.requiresAuth && !isAuthenticated) {
