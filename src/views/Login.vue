@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="div1">
-
+      
     </div>
     <div class="div2">
       <LoginForm />
@@ -32,9 +32,6 @@
   @media (max-width: 768px) {
     main {
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;  
       overflow: hidden; 
     }
 
@@ -42,8 +39,5 @@
       width: 100%;
     }
 
-    .div2 {
-      padding: 20px;
-    }
   }
 </style>
