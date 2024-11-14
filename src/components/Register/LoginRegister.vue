@@ -84,6 +84,7 @@
   input[type="text"],
   input[type="email"],
   input[type="password"] {
+    color:black;
     width: 100%;
     padding: 0.8rem;
     margin: 0.5rem 0 1.5rem;
