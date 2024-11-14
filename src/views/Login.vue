@@ -34,14 +34,16 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      height: 100vh;  
+      overflow: hidden; 
     }
 
     .div1, .div2 {
-      width: 100%;  /* Ambas as divs ocupam 100% da largura */
+      width: 100%;
     }
 
     .div2 {
-      padding: 20px;  /* Adiciona um padding para não ficar colado nas bordas */
+      padding: 20px;
     }
   }
 </style>
