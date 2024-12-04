@@ -1,6 +1,5 @@
 <template>
   <main>
-    
     <h1>Gerenciador de Tarefas</h1>
     <p>Olá {{ userName }}, vejá suas tarefas</p>
 
@@ -48,6 +47,7 @@
       }
     });
   };
+  
   onMounted(() => {
     const sessionData = localStorage.getItem(TASK_MANAGER_SESSION_KEY);
 

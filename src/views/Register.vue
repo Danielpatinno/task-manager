@@ -1,7 +1,7 @@
 <template>
     <main>
       <div class="div1">
-        <LoginRegister />
+        <RegisterForm />
       </div>
       <div class="div2">
         
@@ -11,7 +11,7 @@
   </template>
   
   <script setup>
-    import LoginRegister from '../components/Register/LoginRegister.vue'
+    import RegisterForm from '../components/Register/RegisterForm.vue'
   </script>
   
   <style scoped>

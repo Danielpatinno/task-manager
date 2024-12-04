@@ -38,10 +38,7 @@
       </li>
     </ul>
 
-  
-
     <ModalCreate :show="showModal" />
-
 
     <AlertBanner 
       color="success"
@@ -73,7 +70,6 @@ const openModalTest = () => {
 
 const closeModalTask = () => {
   showModalTask.value = false
-
 }
 
 const isActive = (path) => {
@@ -91,7 +87,6 @@ const handleClick = () => {
     showModalAgenda.value = true
   }
 };
-
 </script>
 
 <style scoped>
@@ -187,6 +182,7 @@ const handleClick = () => {
   @media (max-width:768px) {
     .navContainer {
       width: 68px;
+      z-index: 0;
     }
 
     .newTaskIcon {

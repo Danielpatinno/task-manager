@@ -1,9 +1,6 @@
 <template>
   <div :class="['container', { 'with-navbar': showNavBar }]">
-    <button v-if="showNavBar" :class="[{ 'logoutIcon': showNavBar }]" @click="handleLogout">
-      <span>Sair</span>
-      <LogOut />
-    </button>
+    <ProfileOption v-if="showNavBar"/>
     <NavBar v-if="showNavBar" />
     <div :class="['mainContainer', { 'with-margin': showNavBar }]">
       <router-view></router-view>
@@ -12,21 +9,15 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-import { computed } from 'vue';
-import { LogOut } from 'lucide-vue-next';
-import NavBar from './components/NavBar/NavBar.vue';
+  import { useRoute } from 'vue-router';
+  import { computed } from 'vue';
+  import ProfileOption from './components/common/ProfileOption.vue';
+  import NavBar from './components/NavBar/NavBar.vue';
 
-const route = useRoute();
-const router = useRouter();
+  const route = useRoute();
 
-const showNavBar = computed(() => !['/', '/register'].includes(route.path));
+  const showNavBar = computed(() => !['/', '/login'].includes(route.path));
 
-function handleLogout() {
-  localStorage.clear();
-  
-  router.push('/');
-}
 </script>
 
 <style scoped>

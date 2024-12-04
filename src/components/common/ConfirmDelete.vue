@@ -66,7 +66,6 @@ const confirmDelete = async () => {
     .containerCard {
       width: 340px;
       z-index: 999;
-      margin-left: 20px
     }
     
   }

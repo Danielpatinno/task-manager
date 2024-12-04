@@ -59,7 +59,6 @@
 
   import AlertBanner from '../common/AlertBanner.vue'
 
-  
   const props = defineProps<{
     id: number;
     title: string;
@@ -72,8 +71,6 @@
   }>();
 
   const isAlertVisible = ref()
-
-
 
   const emit = defineEmits<{
     (event: 'update:status', newStatus: string[]): void;
@@ -106,7 +103,6 @@
   }
 });
 
-  // Computed para obter o status local
   const localStatus = computed({
     get: () => status.value,
     set: (newStatus: string) => {
@@ -144,7 +140,6 @@
     showModalDelete.value = false;
   };
 
-  // Função para alterar o status
   function updateTaskStatus(newStatus: string) {
     localStatus.value = newStatus;
   }

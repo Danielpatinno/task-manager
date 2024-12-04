@@ -3,18 +3,24 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Agenda from '../views/Agenda.vue'
 import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
+import Profile from '../views/Profile.vue'
+import RegisterForm from '../components/Login/LoginForm.vue'
+import LoginForm from '../components/Register/RegisterForm.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component:  Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
+    component:  Login,
+    children: [
+      {
+        path: '', 
+        component: LoginForm,
+      },
+      {
+        path: 'login', 
+        component: RegisterForm,
+      },
+    ]
   },
   {
     path: '/home',
@@ -26,6 +32,12 @@ const routes = [
     path: '/agenda',
     name: 'Agenda',
     component: Agenda,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     meta: { requiresAuth: true }
   }
 ]
@@ -41,7 +53,6 @@ router.beforeEach((to, _, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'Login' })
   } else {
-    // Permite o acesso à rota
     next()
   }
 })

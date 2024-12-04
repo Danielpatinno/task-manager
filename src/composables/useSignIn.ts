@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/vue-query";
 import { api } from "../services/api"
 
-// Interfaces
 interface LoginUserProps {
   email: string;
   password: string;
@@ -16,7 +15,6 @@ export interface ResponseUser {
   accessToken: string;
 }
 
-// Função de login
 async function loginUser({ email, password }: LoginUserProps): Promise<ResponseUser> {
   const response = await api.post('/login', { email, password });
   return response.data;

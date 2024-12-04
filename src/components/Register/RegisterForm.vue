@@ -20,11 +20,17 @@
       
         <button type="submit">Cadastrar</button>
         
-        <!-- Link para página de cadastro -->
         <p class="register-link">
-          Já tem conta? <a href="/">Faça login</a>
+          Já tem conta? <router-link to="/login">Faça login</router-link>
         </p>
       </form>    
+
+      <AlertBanner 
+        :isAlertVisible="isAlertVisible"
+        :text="error"
+        color="error"
+        @update:isAlertVisible="isAlertVisible = $event"
+      />
     </div>
   </template>
   
@@ -33,17 +39,20 @@
   import { useSignUp } from '../../composables/useSignUp'
   import { ResponseUserSignUp } from '../../composables/useSignUp';
   import { useRouter } from 'vue-router'; 
+  import { useError } from '../../composables/useError';
+  import AlertBanner from '../common/AlertBanner.vue';
   
   const name = ref('');
   const email = ref('');
   const password = ref('');
   const { mutate } = useSignUp();
-
+  const { error, handleErrorEdit } = useError();
   const router = useRouter(); 
 
   const session = ref<ResponseUserSignUp | null>(null); 
   const isAuthenticated = ref(false);
   const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
+  const isAlertVisible = ref()
   
   const handleLogin = () => {
     mutate({
@@ -55,15 +64,20 @@
         const newSession: ResponseUserSignUp = {
             user: response.user,  
             accessToken: response.accessToken,  
-          };
-
-          
+          };   
           session.value = newSession;
           localStorage.setItem(TASK_MANAGER_SESSION_KEY, JSON.stringify(newSession));
           isAuthenticated.value = true;
           
           router.push({ name: 'Home' }); 
-      }
+      },
+        onError: (err) => {
+          isAlertVisible.value = true
+          handleErrorEdit(err);
+          setTimeout(() => {
+            isAlertVisible.value = false
+          }, 3000)
+        },
     })
   };
   </script>

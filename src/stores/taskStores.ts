@@ -15,7 +15,6 @@ export const useTaskStore = defineStore('task', {
   }),
   actions: {
     async fetchTasks() {
-      // Recupera a sessão do localStorage e extrai o ID do usuário
       const sessionData = localStorage.getItem(TASK_MANAGER_SESSION_KEY);
       const userId = sessionData ? JSON.parse(sessionData).user.id : null;
 

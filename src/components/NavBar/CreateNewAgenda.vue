@@ -1,5 +1,13 @@
 <template>
   <div class="home">
+
+    <AlertBanner 
+      :isAlertVisible="isAlertVisible" 
+      :text="alertMessage"
+      color="error"
+      @update:isAlertVisible="isAlertVisible = $event"
+    />
+
     <div class="modal">
       <h1>Nova Agenda</h1>
         
@@ -33,13 +41,16 @@
   import { defineEmits, ref } from 'vue';
   import { useAddCommitment } from '../../composables/useAddCommitment';
   import { useCommitmentStore } from '../../stores/commitmentsStore';
-  
+  import AlertBanner from '../common/AlertBanner.vue';
+
   const { mutate } = useAddCommitment();
   const commitmentStore = useCommitmentStore();
  
   const title = ref<string>('');
   const dateConclusion = ref<Date | null>(null);
   const dateInput = ref<string>('');
+  const alertMessage = ref<string>('');
+  const isAlertVisible = ref(false)
 
   function updateDate(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -58,11 +69,23 @@
       return;
     }
 
+    const selectedDate = new Date(dateConclusion.value);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      isAlertVisible.value = true;
+      alertMessage.value = 'Data inválida.';
+      setTimeout(() => {
+        isAlertVisible.value = false
+      }, 3000)
+      return;
+    }
+
     mutate(
       {
         title: title.value,
         dateConclusion: dateConclusion.value,
-        userId: userId
+        userId: userId,
       },
       {
         onSuccess: (newCommitment) => {
@@ -75,7 +98,6 @@
       }
     );
   };
-  
   const close = () => {
     emit('close');
   };

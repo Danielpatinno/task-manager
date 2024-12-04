@@ -15,56 +15,64 @@
       
         <button type="submit">Login</button>
         
-        <!-- Link para página de cadastro -->
         <p class="register-link">
-          Não tem conta? <a href="/register">Cadastre-se</a>
+          Não tem conta? <router-link to="/">Cadastre-se</router-link>
         </p>
       </form>    
+
+      <AlertBanner 
+        :isAlertVisible="isAlertVisible"
+        :text="error"
+        color="error"
+        @update:isAlertVisible="isAlertVisible = $event"
+      />
     </div>
   </template>
   
-  <script setup lang="ts">
+<script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router'; 
   import { ResponseUser, useSignIn } from '../../composables/useSignIn';
-
+  import { useError } from '../../composables/useError';
+  import AlertBanner from '../common/AlertBanner.vue';
+  
   const email = ref('');
   const password = ref('');
+  const isAlertVisible = ref()
   const { mutate } = useSignIn();
   const router = useRouter(); 
-
+  const { error, handleErrorEdit } = useError();
+  
   const session = ref<ResponseUser | null>(null); 
   const isAuthenticated = ref(false);
-  const TASK_MANAGER_SESSION_KEY = 'task_manager_session';
+  const SESSION_KEY = 'task_manager_session';
   
-  const handleLogin = async () => {
-  try {
+  const handleLogin = () => {
     mutate(
-      {
-        email: email.value,
-        password: password.value
-      },
+      { email: email.value, password: password.value },
       {
         onSuccess: (response: ResponseUser) => {
           const newSession: ResponseUser = {
             user: response.user,  
             accessToken: response.accessToken,  
           };
-
-          
           session.value = newSession;
-          localStorage.setItem(TASK_MANAGER_SESSION_KEY, JSON.stringify(newSession));
+          localStorage.setItem(SESSION_KEY, JSON.stringify(newSession));
           isAuthenticated.value = true;
-          
           router.push({ name: 'Home' }); 
+        },
+        onError: (err) => {
+          isAlertVisible.value = true
+          handleErrorEdit(err);
+          setTimeout(() => {
+            isAlertVisible.value = false
+          }, 3000)
         },
       }
     );
-  } catch (error) {
-    console.log('Erro ao fazer login:', error);
-  }
-};
-  </script>
+  };
+</script>
+  
   
   
   <style scoped>

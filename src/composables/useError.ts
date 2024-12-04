@@ -2,23 +2,36 @@ import { isAxiosError } from 'axios';
 import { ref, Ref } from 'vue';
 
 interface useError {
-  error: Ref<any | null>; 
+  error: Ref<string | null>; 
   handleErrorEdit: (err: unknown) => void;
   clearError: () => void; 
 }
 
 export function useError(): useError {
-  const error = ref<string[] | null>(null); 
-
+  const error = ref<string | null>(null); 
   const handleErrorEdit = (err: unknown) => {
     if (isAxiosError(err)) {
-      const errors = err.response?.data.errors; 
-      if (Array.isArray(errors)) {
-        error.value = errors; 
-        console.log(error.value[0]); 
+      const data = err.response?.data;
+
+      if (data) {
+        if (typeof data.error === 'string') {
+          error.value = data.error;
+          console.log(error.value); 
+        } 
+
+        else if (Array.isArray(data.errors)) {
+          error.value = data.errors[0]; 
+          console.log(error.value); 
+        } 
+
+        else {
+          console.log('Formato inesperado de erro:', data);
+        }
       } else {
-        console.log('A estrutura de erros não é um array');
+        console.log('Erro sem resposta da API.');
       }
+    } else {
+      console.log('Erro não relacionado ao Axios:', err);
     }
   };
 
@@ -32,4 +45,3 @@ export function useError(): useError {
     handleErrorEdit,
   };
 }
-
