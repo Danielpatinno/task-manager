@@ -145,7 +145,7 @@ function changeTaskStatus(newStatus: string) {
 
   @media (max-width: 768px) {
     .statusContainer {
-      width: 140px;
+      width: 160px;
     }
     
   }

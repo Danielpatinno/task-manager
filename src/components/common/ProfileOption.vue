@@ -112,7 +112,7 @@ function handleOutsideClick(event: MouseEvent) {
 }
 
 .optionsContainer {
-  border: 2px solid rgb(88, 88, 100);
+  border: 2px solid rgb(0, 0, 0);
   border-radius: 5px;
   list-style: none;
   overflow: hidden;
@@ -133,7 +133,7 @@ function handleOutsideClick(event: MouseEvent) {
   color: white;
   text-decoration: none;
   width: 100%;
-  background-color: rgba(128, 128, 128, 0.397);
+  background-color: rgb(0, 0, 0);
 
   &:hover {
     background-color: rgba(128, 128, 128, 0.103);
