@@ -43,7 +43,8 @@ onMounted(() => {
 
   if (sessionData) {
     const session = JSON.parse(sessionData);
-    userName.value = session.user.name;
+    const fullName = session.user.name;
+    userName.value = fullName.split(' ')[0]; 
   }
   document.addEventListener('click', handleOutsideClick);
 });
