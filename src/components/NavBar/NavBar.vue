@@ -182,7 +182,6 @@ const handleClick = () => {
   @media (max-width:768px) {
     .navContainer {
       width: 68px;
-      z-index: 0;
     }
 
     .newTaskIcon {

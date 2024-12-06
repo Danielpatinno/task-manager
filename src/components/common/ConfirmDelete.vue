@@ -64,8 +64,7 @@ const confirmDelete = async () => {
 
   @media (max-width: 768px) {
     .containerCard {
-      width: 340px;
-      z-index: 999;
+      width: 300px;
     }
     
   }

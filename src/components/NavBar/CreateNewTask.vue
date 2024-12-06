@@ -170,6 +170,7 @@ const close = () => {
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     position: absolute;
+    z-index: 9999;
 
     h1 {
       text-align: center;
@@ -184,15 +185,15 @@ const close = () => {
     label {
       font-size: 15px;
       letter-spacing: 1px;
-      color: #cccccc; /* Texto mais claro para contraste */
+      color: #cccccc; 
     }
 
     input {
       padding: 8px;
       border-radius: 10px;
-      background-color: #2a2a2a; /* Fundo escuro */
-      border: 1px solid #444444; /* Borda com leve contraste */
-      color: #ffffff; /* Texto branco para contraste */
+      background-color: #2a2a2a;
+      border: 1px solid #444444;
+      color: #ffffff;
       outline: none;
     }
 
