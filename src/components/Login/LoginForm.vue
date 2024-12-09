@@ -73,19 +73,17 @@
   };
 </script>
   
-  
-  
-  <style scoped>
+<style scoped>
   .container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     height: 90vh;
   }
   
   form {
-    background-color: #fff;
-    border-radius: 10px;
+    background-color: #F2F2F2;
+    border-radius: 0 10px 10px 0;
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -159,5 +157,5 @@
   .register-link a:hover {
     text-decoration: none;
   }
-  </style>
+</style>
   

@@ -50,7 +50,6 @@ const confirmDelete = async () => {
 };
 </script>
 
-  
 <style scoped>
   .containerCard {
     background-color: #1a1a1a;

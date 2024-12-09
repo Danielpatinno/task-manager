@@ -1,6 +1,7 @@
 <template>
   <main>
     <div class="div1">
+      <img :src="tarefas" />
     </div>
     <div class="div2">
       <transition name="fade">
@@ -13,17 +14,26 @@
 <script setup>
   import LoginForm from '../components/Login/LoginForm.vue'
   import RegisterForm from '../components/Register/RegisterForm.vue'
+  import tarefas from '../images/tarefas.png'
 </script>
 
 <style scoped>
   main {
     display: flex;
-    height: 95vh;
-    justify-content: space-between;
+    height: 90vh;
+    justify-content: space-around;
   }
 
   .div1 {
+    display: flex;
     width: 60%;
+    justify-content: right;
+    align-items: center;
+
+      img {
+       height: 500px;
+       border-radius: 10px 0 0 10px;
+    }
   }
 
   .div2 {
@@ -43,9 +53,12 @@
       overflow: hidden;
     }
 
-    .div1,
     .div2 {
       width: 100%;
+    }
+
+    .div1 {
+      display: none;
     }
   }
 </style>

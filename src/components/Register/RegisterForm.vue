@@ -86,14 +86,13 @@
   .container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     height: 90vh;
   }
   
   form {
-    background-color: #fff;
+    background-color: #F2F2F2;
     border-radius: 10px;
-    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
     display: flex;
     flex-direction: column;
     padding: 2rem;
